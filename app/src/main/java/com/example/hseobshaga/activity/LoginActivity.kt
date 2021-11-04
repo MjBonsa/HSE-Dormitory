@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hseobshaga.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
-import android.graphics.Color
-import android.view.View
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 
 class LoginActivity : AppCompatActivity(){
@@ -50,8 +50,18 @@ class LoginActivity : AppCompatActivity(){
                 startActivity(intent)
                 finish()
             } else {
-
-                Log.d("authcheck", "! logged", it.exception)
+                try {
+                    throw it.exception!!
+                }
+                catch (wrongPassword : FirebaseAuthInvalidCredentialsException){
+                    binding.passwordET.error = "Неверный пароль"
+                    binding.passwordET.requestFocus()
+                }
+                catch (wrongEmail : FirebaseAuthInvalidUserException){
+                    binding.mailET.error = "Нет пользователя с таким адресом"
+                    binding.mailET.requestFocus()
+                }
+                Log.d("authError", "! logged", it.exception)
             }
         }
     }

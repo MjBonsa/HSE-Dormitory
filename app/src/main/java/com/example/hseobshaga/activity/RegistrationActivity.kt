@@ -5,13 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import android.widget.ArrayAdapter
+import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.AdapterView
 import android.widget.Toast
 import com.example.hseobshaga.R
+import com.example.hseobshaga.adapters.CustomSpinnerAdapter
 import com.example.hseobshaga.data.User
 import com.example.hseobshaga.databinding.ActivityRegistrationBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -35,15 +37,7 @@ class RegistrationActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
     }
 
-    private fun setRoomsData(){ Firebase.database.getReference("").child("rooms").get()
-        .addOnCompleteListener{
-            it.result.children.forEach{
-                data.add("Room " + it.key.toString())
-            }
-            val adapter = ArrayAdapter(this, R.layout.spinner_item,R.id.roomId,data)
-            binding.spinner.adapter = adapter
-        }
-    }
+
     override fun onStart() {
         super.onStart()
         binding.registritationBtn.setOnClickListener {
@@ -51,6 +45,37 @@ class RegistrationActivity : AppCompatActivity() {
             checkLoginInfoAndRegister()
         }
     }
+
+    private fun setRoomsData(){ Firebase.database.getReference("").child("rooms").get()
+        .addOnCompleteListener{ task ->
+            data.add("Комната")
+            task.result.children.forEach{
+                data.add("Room " + it.key.toString())
+            }
+            runSpinner()
+
+        }
+    }
+
+    private fun runSpinner(){
+        val adapter = CustomSpinnerAdapter(this, R.layout.spinner_item,R.id.roomId,data)
+        binding.spinner.adapter = adapter
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            // Покраска спинерра обратно при ошибке
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (position > 0 )
+                binding.spinnerLayout.setBackgroundResource(R.drawable.edit_text)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO()
+            }
+
+        }
+
+
+    }
+
     private fun createUser(mail : String, password : String){
         auth.createUserWithEmailAndPassword(mail, password)
             .addOnCompleteListener(this) { task ->
@@ -126,6 +151,12 @@ class RegistrationActivity : AppCompatActivity() {
         if (password.length < 6){
             binding.password.error = "Слишком короткий пароль"
             binding.password.requestFocus()
+            return
+        }
+
+        if (binding.spinner.selectedItem.toString() == "Комната"){
+            binding.spinnerLayout.setBackgroundResource(R.drawable.edit_text_error)
+            binding.spinnerLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake))
             return
         }
         createUser(mail,password)

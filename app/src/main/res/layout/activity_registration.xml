@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Пароль"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:maxLines="1"
             android:background="@drawable/edit_text"
             android:layout_marginTop="5dp"
@@ -78,8 +78,9 @@
             android:layout_marginStart="20dp"
             />
         <RelativeLayout
+            android:id="@+id/spinnerLayout"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text"
             android:orientation="horizontal"
             android:layout_marginLeft="20dp"
@@ -96,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:spinnerMode="dropdown" />
