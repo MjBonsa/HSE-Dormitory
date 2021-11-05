@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import java.lang.Exception
 
+
 class RegistrationActivity : AppCompatActivity() {
 
     private var data = ArrayList<String>()
