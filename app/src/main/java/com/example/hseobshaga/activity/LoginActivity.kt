@@ -26,8 +26,9 @@ class LoginActivity : AppCompatActivity(){
 
     override fun onStart() {
         super.onStart()
-        //val currentUser = mAuth.currentUser
-        //updateUI(currentUser)
+
+        isLogin()
+
         binding.loginBtn.setOnClickListener {
             checkLoginInfo()
         }
@@ -38,17 +39,26 @@ class LoginActivity : AppCompatActivity(){
 
     }
 
+    private fun isLogin(){
+        if (mAuth.currentUser != null){
+            startHomeActivity()
+        }
+    }
+
     private fun startRegistrationActivity(){
         val intent = Intent(this, RegistrationActivity::class.java)
         startActivity(intent)
     }
 
+    private fun startHomeActivity(){
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
     private fun loginWithEmailAndPassword(login : String, password : String){
         mAuth.signInWithEmailAndPassword(login,password).addOnCompleteListener(this) {
             if (it.isSuccessful) {
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-                finish()
+                startHomeActivity()
             } else {
                 try {
                     throw it.exception!!
