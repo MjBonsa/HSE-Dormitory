@@ -106,7 +106,9 @@ class RegistrationActivity : AppCompatActivity() {
                 binding.firstName.text.toString(),
                 binding.secondName.text.toString(),
                 binding.mail.text.toString(),
-                binding.spinner.selectedItem.toString()
+                binding.spinner.selectedItem.toString(),
+                "",
+                ""
             ))
         FirebaseDatabase.getInstance().getReference("rooms")
             .child(binding.spinner.selectedItem.toString().substring(5))

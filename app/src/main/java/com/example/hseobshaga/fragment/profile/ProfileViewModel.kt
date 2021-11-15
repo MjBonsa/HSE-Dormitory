@@ -34,6 +34,12 @@ class ProfileViewModel: ViewModel() {
     private val authFirebase = FirebaseAuth.getInstance()
     private var currentUser: User? = null
 
+    private val descriptionRef = FirebaseDatabase.getInstance()
+        .reference
+        .child("users")
+        .child(authFirebase.currentUser!!.uid)
+        .child("description")
+
     private val storage = Firebase.storage
     private val userImageReference: StorageReference =
         storage.getReference("users/${authFirebase.currentUser!!.uid}.jpg")
@@ -41,7 +47,6 @@ class ProfileViewModel: ViewModel() {
     init {
         loadUser()
         loadAvatar()
-        loadDescription()
         loadUserRequests()
     }
 
@@ -71,17 +76,13 @@ class ProfileViewModel: ViewModel() {
     }
 
     fun userEnterNewDescription(description: String) {
-        FirebaseDatabase.getInstance()
-            .getReference()
-            .child("userDescription")
-            .child(authFirebase.currentUser!!.uid)
-            .setValue(description)
+        descriptionRef.setValue(description)
             .addOnFailureListener {
                 viewModelScope.launch(Dispatchers.Main) {
                     submitAction(ProfileAction.ShowSnackBar(it.stackTraceToString()))
                 }
             }
-            .addOnSuccessListener { currentState.userDescription = description }
+            .addOnSuccessListener { currentState.profile?.description  = description }
     }
 
     private fun loadAvatar() {
@@ -92,23 +93,6 @@ class ProfileViewModel: ViewModel() {
             }
     }
 
-    private fun loadDescription() {
-        FirebaseDatabase.getInstance()
-            .getReference()
-            .child("userDescription")
-            .child(authFirebase.currentUser!!.uid)
-            .get()
-            .addOnFailureListener {
-                viewModelScope.launch(Dispatchers.Main) {
-                    submitAction(ProfileAction.ShowSnackBar(it.stackTraceToString()))
-                }
-            }
-            .addOnSuccessListener { data ->
-                val description = data.value.toString()
-                currentState.userDescription = description
-                submitState()
-            }
-    }
 
     private fun loadUser() {
         currentState.initLoadingState = LoadingState.LOADING

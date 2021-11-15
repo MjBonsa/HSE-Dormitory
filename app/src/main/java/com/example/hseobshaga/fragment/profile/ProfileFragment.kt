@@ -131,8 +131,8 @@ class ProfileFragment: Fragment() {
             state.userAvatar?.let {
                 binding.profileAvatar.load(it)
             }
-            state.userDescription?.let {
-                binding.profileAboutMe.text = SpannableStringBuilder(it)
+            state.profile?.let {
+                binding.profileAboutMe.setText(it.description)
             }
         }
     }
