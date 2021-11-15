@@ -1,8 +1,10 @@
 package com.example.hseobshaga.data
 
-class User {
-    var firstName : String = ""
-    var secondName : String = ""
-    var mail : String = ""
-    var room : String = ""
+data class User(val firstName : String, val secondName : String, val mail : String, val room : String) {
+    constructor(): this(
+        "",
+        "",
+        "",
+        ""
+    )
 }

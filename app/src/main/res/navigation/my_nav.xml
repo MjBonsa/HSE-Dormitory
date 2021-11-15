@@ -10,14 +10,17 @@
             android:name="com.example.hseobshaga.HomeFragment"
             android:label="Home"
             tools:layout="@layout/fragment_home" />
+
     <fragment
             android:id="@+id/searchFragment"
             android:name="com.example.hseobshaga.SearchFragment"
             android:label="Search"
             tools:layout="@layout/fragment_search" />
+
     <fragment
             android:id="@+id/profileFragment"
-            android:name="com.example.hseobshaga.ProfileFragment"
+            android:name="com.example.hseobshaga.fragment.profile.ProfileFragment"
             android:label="Profile"
             tools:layout="@layout/fragment_profile" />
+
 </navigation>
