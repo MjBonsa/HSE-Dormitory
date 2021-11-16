@@ -62,7 +62,9 @@ class ProfileFragment: Fragment() {
     private val pickerActivityLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
-        viewModel.uploadNewImage(uri)
+        uri?.let {
+            viewModel.uploadNewImage(it)
+        }
     }
 
     override fun onCreateView(
