@@ -86,9 +86,12 @@ class ProfileViewModel: ViewModel() {
     }
 
     private fun loadAvatar() {
+        currentState.userAvatarLoading = LoadingState.LOADING
+        submitState()
         userImageReference.downloadUrl
             .addOnSuccessListener {
                 currentState.userAvatar = it.toString()
+                currentState.userAvatarLoading = LoadingState.SUCCESS
                 submitState()
             }
     }
