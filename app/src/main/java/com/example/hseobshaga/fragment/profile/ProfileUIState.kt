@@ -10,7 +10,6 @@ data class ProfileUIState(
     var profile: User? = null,
     var userRequests: List<UserRequestUI>? = null,
     var userAvatar: String? = null,
-    var userDescription: String? = null
 )
 
 enum class LoadingState{
