@@ -7,6 +7,7 @@ import com.example.hseobshaga.data.UserRequestUI
 data class ProfileUIState(
     var initLoadingState: LoadingState? = null,
     var userRequestsLoading: LoadingState? = null,
+    var userAvatarLoading: LoadingState? = null,
     var profile: User? = null,
     var userRequests: List<UserRequestUI>? = null,
     var userAvatar: String? = null,
