@@ -13,6 +13,15 @@ data class ProfileUIState(
     var userAvatar: String? = null,
 )
 
+data class HomeUiState(
+    var initLoadingState: LoadingState? = null,
+    var userNeighboursState: LoadingState? = null,
+    var userNeighboursProfileState : LoadingState? = null,
+    var profile: User? = null,
+    var userNeighbours: ArrayList<User> = ArrayList<User>()
+)
+
+
 enum class LoadingState{
     LOADING, ERROR, SUCCESS
 }
