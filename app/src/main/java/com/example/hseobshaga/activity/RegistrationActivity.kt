@@ -46,7 +46,8 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-    private fun setRoomsData(){ Firebase.database.getReference("").child("rooms").get()
+    private fun setRoomsData(){
+        Firebase.database.getReference("").child("rooms").get()
         .addOnCompleteListener{ task ->
             data.add("Комната")
             task.result.children.forEach{
@@ -106,7 +107,7 @@ class RegistrationActivity : AppCompatActivity() {
                 binding.firstName.text.toString(),
                 binding.secondName.text.toString(),
                 binding.mail.text.toString(),
-                binding.spinner.selectedItem.toString(),
+                binding.spinner.selectedItem.toString().substring(5),
                 "",
                 ""
             ))
